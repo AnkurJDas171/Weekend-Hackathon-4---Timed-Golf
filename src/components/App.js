@@ -21,6 +21,7 @@ class Timer extends React.Component {
   handelStart() {
     console.log("button clicked");
     this.setState({ isStart: true });
+    this.timer = setInterval(() => this.statrTimer(), 1000);
 
     console.log(this.state);
   }
@@ -66,23 +67,23 @@ class Timer extends React.Component {
   }
 
   componentDidMount() {
-    this.timer = setInterval(() => this.statrTimer(), 1000);
     document.addEventListener("keydown", this.handelKeyDown);
   }
 
   componentWillUnmount() {
-    clearInterval(this.timer);
     document.removeEventListener("keydown");
   }
 
   render() {
     return (
       <>
-        {!this.state.isStart && (
-          <button className="start" onClick={this.handelStart}>
-            start
-          </button>
-        )}
+        <button
+          className="start"
+          onClick={this.handelStart}
+          disable={this.state.isStart}
+        >
+          start
+        </button>
 
         <div
           className="ball"
