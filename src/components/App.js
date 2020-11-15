@@ -8,6 +8,14 @@ class Timer extends React.Component {
     this.handelStart = this.handelStart.bind(this);
     this.statrTimer = this.statrTimer.bind(this);
     this.handelKeyDown = this.handelKeyDown.bind(this);
+    this.checkIfReachedDestination = this.checkIfReachedDestination.bind(this);
+  }
+
+  checkIfReachedDestination() {
+    if (this.state.x === 250 && this.state.y === 250) {
+      clearInterval(this.timer);
+      this.setState({ isStart: false });
+    }
   }
 
   handelStart() {
@@ -29,24 +37,25 @@ class Timer extends React.Component {
 
       let newX = this.state.x + 5;
       this.setState({ x: newX });
+      this.checkIfReachedDestination();
     } else if (event.keyCode === 40) {
       //down
 
-      let newY = y + 5;
-      setY(newY);
-      setBallPosition({ left: `${x}px`, right: `${newY}px` });
+      let newY = this.state.y + 5;
+      this.setState({ y: newY });
+      this.checkIfReachedDestination();
     } else if (event.keyCode === 38) {
       //up
 
-      let newY = y - 5;
-      setY(newY);
-      setBallPosition({ left: `${x}px`, right: `${newY}px` });
+      let newY = this.state.y - 5;
+      this.setState({ y: newY });
+      this.checkIfReachedDestination();
     } else if (event.keyCode === 37) {
       //left
 
-      let newX = x - 5;
-      setX(newX);
-      setBallPosition({ left: `${newX}px`, right: `${y}px` });
+      let newX = this.state.x - 5;
+      this.setState({ x: newX });
+      this.checkIfReachedDestination();
     }
   }
 
@@ -57,6 +66,7 @@ class Timer extends React.Component {
 
   componentWillUnmount() {
     clearInterval(this.timer);
+    document.removeEventListener("keydown");
   }
 
   render() {
@@ -70,7 +80,10 @@ class Timer extends React.Component {
 
         {this.state.isStart && (
           <>
-            <div className="ball"></div>
+            <div
+              className="ball"
+              style={{ left: `${this.state.x}px`, top: `${this.state.y}px` }}
+            ></div>
             <div className="hole"></div>
             <div className="heading-timer">{this.state.time}</div>
           </>
