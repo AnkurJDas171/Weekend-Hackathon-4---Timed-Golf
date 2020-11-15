@@ -7,6 +7,7 @@ class Timer extends React.Component {
 
     this.handelStart = this.handelStart.bind(this);
     this.statrTimer = this.statrTimer.bind(this);
+    this.handelKeyDown = this.handelKeyDown.bind(this);
   }
 
   handelStart() {
@@ -22,8 +23,36 @@ class Timer extends React.Component {
     this.setState({ time: time });
   }
 
+  handelKeyDown(event) {
+    if (event.keyCode === 39) {
+      //right
+
+      let newX = this.state.x + 5;
+      this.setState({ x: newX });
+    } else if (event.keyCode === 40) {
+      //down
+
+      let newY = y + 5;
+      setY(newY);
+      setBallPosition({ left: `${x}px`, right: `${newY}px` });
+    } else if (event.keyCode === 38) {
+      //up
+
+      let newY = y - 5;
+      setY(newY);
+      setBallPosition({ left: `${x}px`, right: `${newY}px` });
+    } else if (event.keyCode === 37) {
+      //left
+
+      let newX = x - 5;
+      setX(newX);
+      setBallPosition({ left: `${newX}px`, right: `${y}px` });
+    }
+  }
+
   componentDidMount() {
     this.timer = setInterval(() => this.statrTimer(), 1000);
+    document.addEventListener("keydown", this.handelKeyDown);
   }
 
   componentWillUnmount() {
