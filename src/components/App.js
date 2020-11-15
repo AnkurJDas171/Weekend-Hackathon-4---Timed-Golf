@@ -27,11 +27,17 @@ class Timer extends React.Component {
 
   statrTimer() {
     console.log("time changed");
-    let time = this.state.isStart ? this.state.time + 1 : this.state.time;
-    this.setState({ time: time });
+    if (!this.state.isStart) {
+      return;
+    }
+    this.setState({ time: this.state.time + 1 });
   }
 
   handelKeyDown(event) {
+    if (!this.state.isStart) {
+      return;
+    }
+
     if (event.keyCode === 39) {
       //right
 
